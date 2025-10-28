@@ -371,6 +371,10 @@ function switchAuthTab(tab) {
 
 // Handle Login
 function handleLogin() {
+    // Ensure managers are initialized
+    if (!teamManager) teamManager = new TeamManager();
+    if (!sessionManager) sessionManager = new SessionManager();
+    
     const license = document.getElementById('loginLicense').value.trim();
     const password = document.getElementById('loginPassword').value;
     
@@ -393,6 +397,10 @@ function handleLogin() {
 
 // Handle Activation
 function handleActivation() {
+    // Ensure managers are initialized
+    if (!teamManager) teamManager = new TeamManager();
+    if (!sessionManager) sessionManager = new SessionManager();
+    
     const license = document.getElementById('activateLicense').value.trim();
     const teamName = document.getElementById('activateTeamName').value.trim();
     const coachName = document.getElementById('activateCoachName').value.trim();
