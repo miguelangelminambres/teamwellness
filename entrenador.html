@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TeamWellness - Panel del Entrenador</title>
-    <script src="js/data.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; }
@@ -317,16 +316,31 @@ body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; }
     </div>
 </div>
 
+<script src="js/data.js"></script>
 <script>
 // Global vars
 let currentTeamId = null;
-let teamManager = new TeamManager();
+let teamManager = null;
 let playerManager = null;
 let checkInManager = null;
 let alertManager = null;
-let sessionManager = new SessionManager();
+let sessionManager = null;
 
-// Initialize
+// Initialize managers after DOM loads
+window.addEventListener('DOMContentLoaded', function() {
+    teamManager = new TeamManager();
+    sessionManager = new SessionManager();
+    
+    const session = sessionManager.get();
+    if (session && session.type === 'coach') {
+        currentTeamId = session.teamId;
+        initManagers();
+        showApp();
+    }
+});
+
+// Remove the old onload
+/*
 window.onload = function() {
     const session = sessionManager.get();
     if (session && session.type === 'coach') {
@@ -335,6 +349,11 @@ window.onload = function() {
         showApp();
     }
 };
+*/
+
+// Continue with rest of code
+let _oldTeamManager = null;
+// (initialized in DOMContentLoaded above)
 
 function initManagers() {
     playerManager = new PlayerManager(currentTeamId);
